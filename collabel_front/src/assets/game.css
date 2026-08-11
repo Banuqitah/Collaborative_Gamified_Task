@@ -1,0 +1,168 @@
+.game-question-area {
+    grid-area: main;
+}
+
+.game-right-panel {
+    grid-area: right;
+}
+
+.game-left-panel {
+    grid-area: left;
+    height: 100%;
+}
+
+.game-chat-area {
+    grid-area: chat;
+}
+
+.game-container {
+    background-color: antiquewhite;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    width: 80vw;
+    height: 90vh;
+    grid-template-areas:
+        "left main main main right"
+        "chat main main main right"
+        "chat main main main right"
+        "chat main main main right"
+}
+
+.chat-submit-area {
+    display: flex;
+    column-gap: 10px;
+}
+
+.chat-input {
+    flex: 0 100%;
+}
+
+.avatars {
+    display: flex;
+    column-gap: 5px;
+    margin-top: 5px;
+}
+
+.answer-confirmed > .b-avatar {
+    outline: 4px solid #16b212;
+}
+
+.lb {
+    max-height: 400px;
+}
+
+
+.avatars-container {
+    --d: 5em; /* image size */
+    --rel: 1; /* how much extra space we want between images, 1 = one image size */
+    --r: calc(.4*(1 + var(--rel))*var(--d)/var(--tan)); /* circle radius */
+    --s: calc(2*var(--r) + var(--d)); /* container size */
+    position: relative;
+    width: var(--s); height: var(--s);
+  }
+
+.avatars-container a {
+    text-align: center;
+    text-decoration: none;
+    position: absolute;
+    top: 50%; left: 50%;
+    margin: calc(-.5*var(--d));
+    width: var(--d); height: var(--d);
+    --az: calc(var(--i)*1turn/var(--m) + 22.5deg);
+    transform:
+        rotate(var(--az))
+        translate(var(--r))
+        rotate(calc(-1*var(--az)))
+}
+
+.avatars-container img { max-width: 100% }
+
+.user-avatar-item [type=radio] + img {
+    width: 64px;
+    height: 85px;
+    cursor: pointer;
+}
+
+.user-avatar-item [type=radio] {
+    position: absolute;
+    opacity: 0;
+    width: 64px;
+    height: 64px;
+}
+
+
+.user-avatar-item [type=radio]:checked + img {
+    outline: 2px solid #a565ff;
+}
+
+
+.avatar-item [type=radio] + img {
+    width: 72px;
+    height: 72px;
+    cursor: pointer;
+}
+
+.avatar-item [type=radio] {
+    position: absolute;
+    opacity: 0;
+    width: 72px;
+    height: 72px;
+}
+
+.avatar-item.wide-item [type=radio] + img {
+    width: 96px;
+    height: 72px;
+    cursor: pointer;
+}
+
+.avatar-item.wide-item [type=radio] {
+    position: absolute;
+    opacity: 0;
+    width: 96px;
+    height: 72px;
+}
+
+
+.avatar-item [type=radio]:checked + img {
+    outline: 2px solid #a565ff;
+}
+
+.galaxy-image {
+    width: 356px;
+    height: 356px;
+}
+
+@media (width <= 1250px) {
+    .galaxy-image {
+        max-width: 256px;
+        max-height: 256px;
+    }
+}
+
+.suggest-button {
+  display: inline-block;
+  white-space: nowrap;
+  outline: none;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 8px 16px;
+  border: 1px solid #222222;
+  transition: box-shadow 0.2s ease 0s, -ms-transform 0.1s ease 0s, -webkit-transform 0.1s ease 0s, transform 0.1s ease 0s;
+  background: #fff;
+  color: #222222;
+  :hover {
+      border-color: #000000;
+      background: #f7f7f7;
+  }
+}
+
+.intro-section {
+    max-height: 65vh;
+    height: 85vh;
+    overflow: scroll;
+}
+
+ul.no-bullets li {
+    list-style-type: none !important;
+}

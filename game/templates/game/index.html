@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load vite %}
+    {% vite_styles 'src/main.js' %}
+    <title>Collabel</title>
+</head>
+<body>
+
+{{ state|json_script:"state" }}
+{% csrf_token %}
+
+<div id="app"></div>
+ {% vite_scripts 'src/main.js' %}
+</body>
+</html>

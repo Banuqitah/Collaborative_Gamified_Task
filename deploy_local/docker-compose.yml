@@ -1,0 +1,66 @@
+version: '3'
+services:
+  app:
+    build: ../
+    container_name: backend-app-local
+    restart: on-failure
+    ports:
+      - "8000:8000"
+      - "8001:8001"
+    command:
+      - /bin/sh
+      - -c
+      - |
+        set -e
+        python - <<'PY'
+        import socket
+        import time
+
+        for _ in range(60):
+            try:
+                with socket.create_connection(("redis", 6379), timeout=2):
+                    break
+            except OSError:
+                time.sleep(1)
+        else:
+            raise SystemExit("Redis is not ready")
+        PY
+        cd collabel_front &&
+        npm run build &&
+        cd .. &&
+        python manage.py migrate &&
+        python manage.py load_data &&
+        cron
+        gunicorn collabel.wsgi:application --bind 0.0.0.0:8000 -w 2 &
+        exec daphne -b 0.0.0.0 -p 8001 --proxy-headers --access-log - collabel.asgi:application
+
+    environment:
+      - GAME_MODE=${GAME_MODE}
+    
+    volumes:
+      - db:/collabel/db
+      - static:/collabel/static
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - 6379:6379
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 2s
+      timeout: 2s
+      retries: 30
+
+  nginx:
+    image: nginx
+    restart: unless-stopped
+    ports:
+      - 80:80
+    volumes:
+      - ./user_conf.d:/etc/nginx/conf.d:ro
+      - static:/collabel/static
+
+volumes:
+  db:
+  static:
+  nginx_secrets:
